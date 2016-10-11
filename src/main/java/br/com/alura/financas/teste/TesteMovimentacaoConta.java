@@ -23,7 +23,7 @@ public class TesteMovimentacaoConta {
         System.out.println(conta.getMovimentacoes().size());*/
         
 
-        Query query = manager.createQuery("select c from Conta c join fetch c.movimentacoes where c.id = 44");
+        Query query = manager.createQuery("select c from Conta c join fetch c.movimentacoes where c.id = 1");
         List<Conta> contas = query.getResultList();
         
         manager.close(); //usando o join fetch posso fechar o EntityManager antes de acessar as movimentações
