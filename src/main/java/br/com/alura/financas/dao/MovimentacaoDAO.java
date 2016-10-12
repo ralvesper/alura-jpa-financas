@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import br.com.alura.financas.modelo.Conta;
 import br.com.alura.financas.modelo.Movimentacao;
@@ -43,6 +44,35 @@ public class MovimentacaoDAO {
 	         System.out.println("Valor ......: R$ " + mov.getValor());
 		}
 		
+	}
+	
+	/**
+	 * Teste TypedQuery
+	 * 
+	 * @param conta
+	 * @return
+	 */
+	public Double mediaDaConta(Conta conta) {
+
+	    TypedQuery<Double> query = 
+	            manager.createQuery("select avg(m.valor) from Movimentacao m where m.conta=:pConta "
+	                            + " and m.tipoMovimentacao = 'SAIDA'", Double.class);
+	    query.setParameter("pConta", conta);
+	    return query.getSingleResult();
+	}
+	
+	/**
+	 * Teste NamedQuery
+	 * 
+	 * @param conta
+	 * @return
+	 */
+	public Long totalDeMovimentacoes(Conta conta) {
+
+	    TypedQuery<Long> query = manager.createNamedQuery("totalDeMovimentacoes", Long.class);
+	    query.setParameter("pConta", conta);
+
+	    return query.getSingleResult();
 	}
 	
 	

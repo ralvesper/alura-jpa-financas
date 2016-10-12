@@ -10,29 +10,35 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.ws.RespectBinding;
 
-@NamedQuery(name = "mediaDaContaPeloTipoMovimentacao",
-query = "select avg(m.valor) from Movimentacao m where m.conta=:pConta  and m.tipoMovimentacao = :pTipo")
-
+@NamedQueries({
+		@NamedQuery(name = "mediaDaContaPeloTipoMovimentacao", 
+				query = "select avg(m.valor) from Movimentacao m where m.conta=:pConta  and m.tipoMovimentacao = :pTipo"),
+		@NamedQuery(name = "totalDeMovimentacoes", 
+				query = "select count(m) from Movimentacao m where m.conta = :pConta")
+})
 @Entity
 public class Movimentacao {
-	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private BigDecimal valor;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Calendar data;
-	
+
 	private String descricao;
-	
+
 	@ManyToOne
 	private Conta conta;
 
@@ -83,7 +89,5 @@ public class Movimentacao {
 	public void setConta(Conta conta) {
 		this.conta = conta;
 	}
-	
-
 
 }

@@ -15,9 +15,10 @@ import br.com.caelum.financas.util.JPAUtil;
 
 public class TesteConsultaFuncoes {
 	public static void main(String[] args) {
-		testaSoma();
+		/*testaSoma();
 		testaMedia();
-		testaNamedQueryMedia();
+		testaNamedQueryMedia();*/
+		testaFuncaoMax();
 	}
 
 	private static void testaSoma() {
@@ -81,6 +82,20 @@ public class TesteConsultaFuncoes {
 		Double media = query.getSingleResult();
 
 		System.out.println("Média ......: R$ " + media);
+	}
+	
+	private static void testaFuncaoMax() {
+
+		EntityManager manager = JPAUtil.getInstance().getEntityManager();
+
+		Conta conta = manager.find(Conta.class, 1);
+		
+		TypedQuery<BigDecimal> query = manager.createQuery("select max(m.valor) from Movimentacao m where m.conta = :pConta", BigDecimal.class);			
+		query.setParameter("pConta", conta);
+	
+		BigDecimal valor = query.getSingleResult();
+
+		System.out.println("Movimentação Máxima......: R$ " + valor);
 	}
 	
 	
